@@ -1,4 +1,4 @@
-<h1>Log In</h1>
+<h1>Log In</h1> 
 
 {% if error_message %}<p>{{error_message}}<strong></strong></p>{% endif %}
 
@@ -12,3 +12,5 @@
     <br />
     <input type="submit" value="Log In" />
 </form>
+
+Or <a href="{% url 'registration' %}">Register</a>
