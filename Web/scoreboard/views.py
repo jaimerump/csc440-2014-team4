@@ -16,10 +16,11 @@ def login(request):
     # Processes the login form
     post_username = request.POST['username']
     password = request.POST['password']
-	if Player.objects.filter(username=post_username).count() == 0:
+	try:
+        player = Player.objects.get(username=post_username)
+    except:
 		return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
-    player = Player.objects.get(username=post_username)
-
+		
     if not player.check_password(password):
 		return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
 
