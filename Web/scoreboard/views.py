@@ -76,12 +76,12 @@ def register(request):
 	
 def record_kill(request):
 	# Records a kill in the database
-	victim_id = request.GET['victim_id']
-	killer_id = request.GET['killer_id']
+	victim_name = request.GET['victim_name']
+	killer_name = request.GET['killer_name']
 	game_id = request.GET['game_id']
 	
-	victim = Player.objects.get(player_id=victim_id)
-	killer = Player.objects.get(player_id=killer_id)
+	victim = Player.objects.get(username=victim_name)
+	killer = Player.objects.get(username=killer_name)
 	game = Game.objects.get(game_id=game_id)
 	
 	# Check if the killer already has a record for this game

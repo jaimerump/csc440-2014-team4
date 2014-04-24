@@ -58,9 +58,9 @@
 				});
 				u.initPlugin(jQuery("#unityPlayer")[0], "webBuild.unity3d");
 				
-				//Get player id from url and send to Unity
-				var player_id = getParameterByName("player_id");
-				u.getUnity().SendMessage("Script", "Function", player_id);
+				//Get player name from url and send to Unity
+				var player_name = getParameterByName("player_name");
+				u.getUnity().SendMessage("MultiplayerManager", "setPlayerName", player_name);
 				
 			});
 			
