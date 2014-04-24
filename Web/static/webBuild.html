@@ -57,7 +57,20 @@
 					}
 				});
 				u.initPlugin(jQuery("#unityPlayer")[0], "webBuild.unity3d");
+				
+				//Get player id from url and send to Unity
+				var player_id = getParameterByName("player_id");
+				u.getUnity().SendMessage("Script", "Function", player_id);
+				
 			});
+			
+			function getParameterByName(name) {
+				// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+				name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+				var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+					results = regex.exec(location.search);
+				return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			}
 		-->
 		</script>
 		<style type="text/css">
