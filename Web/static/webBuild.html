@@ -58,10 +58,6 @@
 				});
 				u.initPlugin(jQuery("#unityPlayer")[0], "webBuild.unity3d");
 				
-				//Get player name from url and send to Unity
-				var player_name = getParameterByName("player_name");
-				u.getUnity().SendMessage("MultiplayerManager", "setPlayerName", player_name);
-				
 			});
 			
 			function getParameterByName(name) {
@@ -71,6 +67,13 @@
 					results = regex.exec(location.search);
 				return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 			}
+			
+			function OnMultiplayerManagerReady(){
+				//Get player name from url and send to Unity
+				var player_name = getParameterByName("player_name");
+				u.getUnity().SendMessage("MultiplayerManager", "setPlayerName", player_name);
+			}
+			
 		-->
 		</script>
 		<style type="text/css">
