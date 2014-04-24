@@ -87,13 +87,13 @@ def record_kill(request):
 	# Check if the killer already has a record for this game
 	kill_record = GameEvent.objects.get(game=game, player=killer)
 	if( kill_record == None ):
-		kill_record = GameEvent.(game=game, player=killer, kills=0, deaths=0)
+		kill_record = GameEvent(game=game, player=killer, kills=0, deaths=0)
 	kill_record.kills += 1
 	kill_record.save
 	
 	# Check if the victim already has a record for this game
 	death_record = GameEvent.objects.get(game=game, player=death)
 	if( death_record == None ):
-		death_record = GameEvent.(game=game, player=victim, kills=0, deaths=0)
+		death_record = GameEvent(game=game, player=victim, kills=0, deaths=0)
 	death_record.deaths += 1
 	death_record.save
