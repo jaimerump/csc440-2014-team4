@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from scoreboard.models import Player
+from scoreboard.models import Player, Game, GameEvent
 import random
 
 def index(request):
@@ -40,11 +40,11 @@ def scoreboard(request):
     current_player = Player.objects.get(player_id=player_id)
 	
     # Get game data
-    #game_id = request.GET['game_id'] if "game_id" in request.GET else 1
-    #game = Game.objects.get(game_id=game_id)
-    #game_records = GameEvents.objects.get(game=game)
+    game_id = request.GET['game_id'] if "game_id" in request.GET else 1
+    game = Game.objects.get(game_id=game_id)
+    game_records = GameEvents.objects.get(game=game)
 	
-    context = {'player':current_player}
+    context = {'player':current_player, 'game_records':game_records}
     return render(request, 'scoreboard/scoreboard.html', context)
 
 def registration(request):
@@ -78,7 +78,7 @@ def record_kill(request):
 	# Records a kill in the database
 	victim_name = request.GET['victim_name']
 	killer_name = request.GET['killer_name']
-	game_id = request.GET['game_id']
+	game_id = 1
 	
 	victim = Player.objects.get(username=victim_name)
 	killer = Player.objects.get(username=killer_name)

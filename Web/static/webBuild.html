@@ -60,6 +60,8 @@
 				
 			});
 			
+			var player_name;
+			
 			function getParameterByName(name) {
 				// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 				name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -70,8 +72,12 @@
 			
 			function OnMultiplayerManagerReady(){
 				//Get player name from url and send to Unity
-				var player_name = getParameterByName("player_name");
+				player_name = getParameterByName("player_name");
 				u.getUnity().SendMessage("MultiplayerManager", "setPlayerName", player_name);
+			}
+			
+			function OnDeath(killer_name){
+				jQuery.get("/record_kill?victim_name="+player_name+"&killer_name="+killer_name);
 			}
 			
 		-->
