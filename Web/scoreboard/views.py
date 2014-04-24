@@ -40,11 +40,11 @@ def scoreboard(request):
     current_player = Player.objects.get(player_id=player_id)
 	
     # Get game data
-    #game_id = request.GET['game_id'] if "game_id" in request.GET else 1
-    #game = Game.objects.get(game_id=game_id)
-    #game_records = GameEvent.objects.filter(game=game)
+    game_id = request.GET['game_id'] if "game_id" in request.GET else 1
+    game = Game.objects.get(game_id=game_id)
+    game_records = GameEvent.objects.filter(game=game)
 	
-    context = {'player':current_player}#, 'game_records':game_records}
+    context = {'player':current_player, 'game_records':game_records}
     return render(request, 'scoreboard/scoreboard.html', context)
 
 def registration(request):

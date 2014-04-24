@@ -2,3 +2,21 @@ You are logged in as {{player.username}}.
 
 <a href="{% url 'logout' %}">Logout</a> 
 <a href="/static/webBuild.html?player_name={{player.username}}">Or Play</a>
+
+<h1>Scoreboard</h1>
+<table>
+    <th>
+	<td>Player</td>
+	<td>Kills</td>
+	<td>Deaths</td>
+    </th>
+
+    {% for record in game_records %}
+     	<tr>
+	    <td>{{record.player.username}}</td>
+	    <td>{{record.kills}}</td>
+	    <td>{{record.deaths}}</td>
+	</tr>
+    {% endfor %}
+
+</table>
