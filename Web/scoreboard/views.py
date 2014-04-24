@@ -9,17 +9,19 @@ def index(request):
     # Displays the login form
     player_id = request.session['player_id'] if "player_id" in request.session else None
     if player_id:
-	return HttpResponseRedirect('/scoreboard/')
+		return HttpResponseRedirect('/scoreboard/')
     return render(request, 'scoreboard/index.html')
 
 def login(request):
     # Processes the login form
     post_username = request.POST['username']
     password = request.POST['password']
+	if Player.objects.filter(username=post_username).count() == 0:
+		return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
     player = Player.objects.get(username=post_username)
 
     if not player.check_password(password):
-	return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
+		return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
 
     request.session['player_id'] = player.player_id
     return HttpResponseRedirect('/scoreboard/')
