@@ -16,7 +16,7 @@ def login(request):
     # Processes the login form
     post_username = request.POST['username']
     password = request.POST['password']
-	try:
+    try:
         player = Player.objects.get(username=post_username)
     except:
 		return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
@@ -39,10 +39,10 @@ def scoreboard(request):
 		return HttpResponseRedirect('/')
     current_player = Player.objects.get(player_id=player_id)
 	
-	# Get game data
-	#game_id = request.GET['game_id'] if "game_id" in request.GET else 1
-	#game = Game.objects.get(game_id=game_id)
-	#game_records = GameEvents.objects.get(game=game)
+    # Get game data
+    #game_id = request.GET['game_id'] if "game_id" in request.GET else 1
+    #game = Game.objects.get(game_id=game_id)
+    #game_records = GameEvents.objects.get(game=game)
 	
     context = {'player':current_player}
     return render(request, 'scoreboard/scoreboard.html', context)
@@ -50,7 +50,7 @@ def scoreboard(request):
 def registration(request):
     # Displays the registration form
     player_id = request.session['player_id'] if "player_id" in request.session else None
-		if player_id:
+    if player_id:
 	HttpResponseRedirect('/scoreboard/')
     return render(request, 'scoreboard/registration.html')
 
