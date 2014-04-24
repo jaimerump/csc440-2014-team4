@@ -42,7 +42,7 @@ def scoreboard(request):
     # Get game data
     game_id = request.GET['game_id'] if "game_id" in request.GET else 1
     game = Game.objects.get(game_id=game_id)
-    game_records = GameEvents.objects.get(game=game)
+    game_records = GameEvent.objects.get(game=game)
 	
     context = {'player':current_player, 'game_records':game_records}
     return render(request, 'scoreboard/scoreboard.html', context)
