@@ -18,8 +18,8 @@ def login(request):
     password = request.POST['password']
     try:
         player = Player.objects.get(username=post_username)
-    except:
-		return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
+    except Player.DoesNotExist:
+    	return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
 		
     if not player.check_password(password):
 		return render(request, 'scoreboard/index.html', {'error_message':"Username or password incorrect"})
@@ -40,11 +40,11 @@ def scoreboard(request):
     current_player = Player.objects.get(player_id=player_id)
 	
     # Get game data
-    game_id = request.GET['game_id'] if "game_id" in request.GET else 1
-    game = Game.objects.get(game_id=game_id)
-    game_records = GameEvent.objects.get(game=game)
+    #game_id = request.GET['game_id'] if "game_id" in request.GET else 1
+    #game = Game.objects.get(game_id=game_id)
+    #game_records = GameEvent.objects.filter(game=game)
 	
-    context = {'player':current_player, 'game_records':game_records}
+    context = {'player':current_player}#, 'game_records':game_records}
     return render(request, 'scoreboard/scoreboard.html', context)
 
 def registration(request):
@@ -76,24 +76,32 @@ def register(request):
 	
 def record_kill(request):
 	# Records a kill in the database
-	victim_name = request.GET['victim_name']
-	killer_name = request.GET['killer_name']
+	victim_name = request.GET['victim_name'] if "victim_name" in request.GET else "Guest"
+	killer_name = request.GET['killer_name'] if "killer_name" in request.GET else "Guest"
 	game_id = 1
 	
-	victim = Player.objects.get(username=victim_name)
-	killer = Player.objects.get(username=killer_name)
+        try:
+	    victim = Player.objects.get(username=victim_name)
+	except Player.DoesNotExist:
+	    victim = Player.objects.get(username="Guest")
+	try:
+	    killer = Player.objects.get(username=killer_name)
+	except Player.DoesNotExist:
+	    killer = Player.objects.get(usernam="Guest")
 	game = Game.objects.get(game_id=game_id)
 	
 	# Check if the killer already has a record for this game
-	kill_record = GameEvent.objects.get(game=game, player=killer)
-	if( kill_record == None ):
-		kill_record = GameEvent(game=game, player=killer, kills=0, deaths=0)
+	try:
+	    kill_record = GameEvent.objects.get(game=game, player=killer)
+	except GameEvent.DoesNotExist:
+	    kill_record = GameEvent(game=game, player=killer, kills=0, deaths=0)
 	kill_record.kills += 1
-	kill_record.save
+	kill_record.save()
 	
 	# Check if the victim already has a record for this game
-	death_record = GameEvent.objects.get(game=game, player=death)
-	if( death_record == None ):
-		death_record = GameEvent(game=game, player=victim, kills=0, deaths=0)
+	try:
+	    death_record = GameEvent.objects.get(game=game, player=victim)
+	except GameEvent.DoesNotExist:
+	    death_record = GameEvent(game=game, player=victim, kills=0, deaths=0)
 	death_record.deaths += 1
-	death_record.save
+	death_record.save()
